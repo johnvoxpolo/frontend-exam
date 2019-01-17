@@ -1,0 +1,23 @@
+<div *ngIf="type === 'card'">
+  <button mat-button (click)="goBack()">Go back</button>
+  <mat-card *ngFor="let data of data" [ngClass]="'m-t-20'">
+    <mat-card-title [ngClass]="'capitalize'"> 
+      {{name}}
+    </mat-card-title>
+    <mat-card-content *ngFor="let columnField of columnFields">
+        <p *ngIf="columnField.isVisble"><span [ngClass]="'bold'">{{columnField.columnDisplayName}}</span>: {{data[columnField.columnName]}}</p>
+    </mat-card-content>
+  </mat-card>
+</div>
+  
+<div *ngIf="type === 'table'">
+  <button mat-button (click)="goBack()">Go back</button>
+  <mat-table  [dataSource]="data">
+    <ng-container *ngFor="let columnField of columnFields" [cdkColumnDef]="columnField.columnName">
+        <mat-header-cell *cdkHeaderCellDef>{{ columnField.columnDisplayName }}</mat-header-cell>
+        <mat-cell *cdkCellDef="let row">{{ row[columnField.columnName] }}</mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>
